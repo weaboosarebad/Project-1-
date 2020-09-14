@@ -1,0 +1,56 @@
+ //Question 2.1
+    abstract class Tile
+    {
+        protected int x;
+        protected int y;
+
+        //Public Accessors
+        public int xPos
+        {
+            get { return x; }
+
+        }
+        public int yPos
+        {
+            get { return y; }
+        }
+        public enum TileType
+        {
+            Hero,
+            Enemy,
+            Gold,
+            Weapon
+        }
+
+        //Constructor 
+        public Tile()
+        {
+
+        }
+
+        public Tile(int xCoordinate, int yCoordinate)
+        {
+            y = yCoordinate;
+            x = xCoordinate;
+        }
+        //Obstacle Subclass 
+        public class Obstacle : Tile
+        {
+            public Obstacle(int _xPos, int _yPos)
+            {
+                x = _xPos;
+                y = _yPos;
+            }
+        }
+
+        //Empty Tile Subclass
+        public class EmptyTile : Tile
+        {
+            public EmptyTile(int _xPos, int _yPos)
+            {
+                x = _xPos;
+                y = _yPos;
+            }
+        }
+
+    }
