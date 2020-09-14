@@ -1,4 +1,14 @@
- //Question 2.1
+namespace Task1
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+    }
+
+    //Question 2.1
     abstract class Tile
     {
         protected int x;
@@ -7,12 +17,14 @@
         //Public Accessors
         public int xPos
         {
-            get { return x; }
+            get { return x; } 
+            set { }
 
         }
         public int yPos
         {
             get { return y; }
+            set { }
         }
         public enum TileType
         {
@@ -52,8 +64,11 @@
                 y = _yPos;
             }
         }
-   
- abstract class Character : Tile 
+
+    }
+
+    //Question 2.2 
+    abstract class Character : Tile 
     {
         // Enum For Movement
         public enum Movement { noMovement, Up, Down, Left, Right }
@@ -67,22 +82,32 @@
         public int healthPoints
         {
             get { return HP; }
+            set { }
 
         }
         public int maximumHealth
         {
             get { return maxHp; }
+            set { }
 
         }
         public int dmg
         {
             get { return damage; }
+            set { }
 
-        }    
+        }
 
 
 
+        //Question 2.3 
 
-    }
-
-    }
+        //Constructor
+        public Character(int _xpos, int _ypos, string symbol)  
+        {
+            xPos = _xpos;
+            yPos = _ypos; 
+        
+        }
+    } 
+}
