@@ -52,5 +52,37 @@
                 y = _yPos;
             }
         }
+   
+ abstract class Character : Tile 
+    {
+        // Enum For Movement
+        public enum Movement { noMovement, Up, Down, Left, Right }
+        //Vision
+        public string[] vision;
+        protected int HP;
+        protected int maxHp;
+        protected int damage;
+
+        //Public Accessors
+        public int healthPoints
+        {
+            get { return HP; }
+
+        }
+        public int maximumHealth
+        {
+            get { return maxHp; }
+
+        }
+        public int dmg
+        {
+            get { return damage; }
+
+        }    
+
+
+
+
+    }
 
     }
