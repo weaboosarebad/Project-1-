@@ -1,21 +1,76 @@
-
-
-
-
-
-
 namespace Task1
 {
     public partial class Form1 : Form
     {
+       
         public Form1()
         {
-            InitializeComponent();
+            InitializeComponent();  
+        }
+        public Tile[,] mapInstance;
+        public Map map = new Map();
+
+
+        //Game Engine Class
+        public void DisplayMap()
+        {
+            mapInstance = map.MapGenerator(); 
+            for (int x = 0; x <= map.xMapSize-1; x++)
+            {
+                for (int y = 0; y <= map.yMapSize-1; y++)
+                {
+
+                    if (mapInstance[x, y].Tile_Type == Tile.TileType.Obstacle)
+                    {
+                        Label tileLabel = new Label();
+
+                        this.Controls.Add(tileLabel);
+
+
+                        tileLabel.Left = 20 * x;
+                        tileLabel.Top = 20 * y;
+
+                        tileLabel.ForeColor = Color.White;
+                        tileLabel.BackColor = Color.Black;
+
+                        tileLabel.Font = new Font("Arial", 15f);
+                        tileLabel.AutoSize = true;
+                        tileLabel.Text = "#";
+                    }
+
+                   else if (mapInstance[x, y].Tile_Type == Tile.TileType.Area)
+                    {
+                        Label tileLabel = new Label();
+
+                        this.Controls.Add(tileLabel);
+
+
+                        tileLabel.Left = 20 * x;
+                        tileLabel.Top = 20 * y;
+
+                        tileLabel.ForeColor = Color.White;
+                        tileLabel.BackColor = Color.Black;
+
+                        tileLabel.Font = new Font("Arial", 15f);
+                        tileLabel.AutoSize = true;
+                        tileLabel.Text = " ";
+                    }
+                }
+        }    }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            DisplayMap();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
     //Question 2.1
-    abstract class Tile
+    public class Tile 
     {
         protected int x;
         protected int y;
@@ -37,8 +92,12 @@ namespace Task1
             Hero,
             Enemy,
             Gold,
-            Weapon
+            Weapon, 
+            Area, 
+            Obstacle
         }
+
+        public TileType Tile_Type; 
 
         //Constructor 
         public Tile()
@@ -46,10 +105,12 @@ namespace Task1
 
         }
 
-        public Tile(int xCoordinate, int yCoordinate)
+        public Tile(int xCoordinate, int yCoordinate, TileType _TileType)
         {
             y = yCoordinate;
             x = xCoordinate;
+            Tile_Type = _TileType; 
+
         }
         //Obstacle Subclass 
         public class Obstacle : Tile
@@ -126,6 +187,26 @@ namespace Task1
         {
             
         } 
+        
+        public void playerMovement(Movement _movement) 
+        {
+            switch (_movement)
+            {
+                case Movement.Up:  yPos = yPos + 1; 
+                        break;
+                case Movement.Down: yPos = yPos - 1;
+                    break;
+                case Movement.Left: xPos = xPos - 1;
+                    break;
+                case Movement.Right: xPos = xPos + 1;
+                    break; 
+                
+            }
+                
+        }
+        
+        
+        
         //Checking if character is dead 
         public bool IsDead()
         {
@@ -136,67 +217,124 @@ namespace Task1
             else return false;
         }
        // Check Range
-          public virtual bool CheckRange()
-        {
-            if (DistanceTo() >= 1)
-            {
-                return true;
+        //public virtual bool CheckRange()
+        //{
+        //    if (DistanceTo() >= 1)
+        //    {
+        //        return true;
 
-            }
-            else return false;
-        }
+        //    }
+        //    else return false;
+        //}
 
 
         // Check Distance
-        private int DistanceTo()
-        {
-            int characterYPos =0;
-            int characterXPos=0;
-            int targetYPos=0;
-            int targetXPos=0;
-            int distanceY;
-            int distanceX; 
-            Map obj = new Map();
-            for (int k = 0; k < Map.gameMap.Length; k++)
-            {
-                for (int j = 0; j < Map.gameMap.Length; j++)
-                {
-                    if (Map.gameMap[k, j] == 'H')
-                    {
-                        characterYPos = k;
-                        characterXPos = j;
-                    }
-                    if (Map.gameMap[k, j] == 'G')
-                    {
-                        targetYPos = k;
-                        targetXPos = j;
-                    }
-                }
-            }
-            if (characterYPos > targetYPos)
-            {
-                distanceY = characterYPos - targetYPos;
-            }
-            else distanceY = targetYPos - characterYPos;
+        //private int DistanceTo()
+        //{
+        //    int characterYPos =0;
+        //    int characterXPos=0;
+        //    int targetYPos=0;
+        //    int targetXPos=0;
+        //    int distanceY;
+        //    int distanceX; 
+        //    Map obj = new Map();
+        //    for (int k = 0; k < Map.gameMap.Length; k++)
+        //    {
+        //        for (int j = 0; j < Map.gameMap.Length; j++)
+        //        {
+        //            if (Map.gameMap[k, j] == 'H')
+        //            {
+        //                characterYPos = k;
+        //                characterXPos = j;
+        //            }
+        //            if (Map.gameMap[k, j] == 'G')
+        //            {
+        //                targetYPos = k;
+        //                targetXPos = j;
+        //            }
+        //        }
+        //    }
+        //    if (characterYPos > targetYPos)
+        //    {
+        //        distanceY = characterYPos - targetYPos;
+        //    }
+        //    else distanceY = targetYPos - characterYPos;
 
-            if (characterXPos > targetXPos)
-            {
-                distanceX = characterXPos - targetXPos;
-            }
-            else distanceX = targetXPos - characterXPos;
+        //    if (characterXPos > targetXPos)
+        //    {
+        //        distanceX = characterXPos - targetXPos;
+        //    }
+        //    else distanceX = targetXPos - characterXPos;
 
-            return (distanceX + distanceY); 
+        //    return (distanceX + distanceY); 
 
-        }
+        //}
 
          
 
     }  
      
     
-   public class Map 
+   public class Map
     {
-        // 2D array declaration 
-        public static char[,] gameMap;
+         
+        public int xMapSize;
+        public int yMapSize;
+        public int minX =5  ;
+        public int minY = 5 ;
+        public int maxX = 20 ;
+        public int maxY = 20 ;
+
+        public (int, int) RndMaxSize()
+        {
+            int xSize;
+            int ySize; 
+            Random rndNumber = new Random();
+            xSize = rndNumber.Next(minX, maxX);
+            ySize = rndNumber.Next(minY, maxY);
+
+            return (xSize, ySize);  
+
+
+
+        }
+      
+       public Tile[,] MapGenerator()
+        {
+            xMapSize = RndMaxSize().Item1;
+            yMapSize = RndMaxSize().Item2;
+            Tile[,] gameMap = new Tile[xMapSize, yMapSize] ; 
+
+
+            //Nested for loop for map generation 
+                
+            for (int x=0; x <= xMapSize-1; x++)
+            {
+                for (int y=0; y <= yMapSize-1; y++)
+                {
+                   if (x==0 || x == xMapSize-1 || y==0 || y == yMapSize-1)
+                    {   
+                        //Generates Walls
+                        gameMap[x, y] = new Tile(x, y, Tile.TileType.Obstacle);
+
+                    }
+
+                    //Generates Area 
+                    else { gameMap[x, y] = new Tile(x, y, Tile.TileType.Area); }
+                    
+
+
+
+
+                }
+         
+            }  
+            return gameMap; 
+       
+        }
+
+
+
+
     }
 }
